@@ -25,8 +25,13 @@
 #define PIN_RIGHT_V A3
 #define PIN_BACK_H A4
 #define PIN_BACK_V A5
-//#define PIN_LEFT_H A4
-//#define PIN_LEFT_V A5
+
+#if defined(ARDUINO_AVR_MICRO)
+
+#define PIN_LEFT_H A7
+#define PIN_LEFT_V A6
+
+#endif
 
 class SixAxis {
 

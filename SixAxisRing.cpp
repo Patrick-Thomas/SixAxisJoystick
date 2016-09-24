@@ -10,6 +10,10 @@
 
 void SixAxis::updateAxes() {
 	
+	/*
+	 * Y,A,B,C calculation
+	 */
+
 	// Extract and assign analog values from integer array
 	int movFH = analogRead(PIN_FRONT_H);
 	int movFV = analogRead(PIN_FRONT_V);
@@ -17,19 +21,30 @@ void SixAxis::updateAxes() {
 	int movRH = analogRead(PIN_RIGHT_H);
 	int movRV = analogRead(PIN_RIGHT_V);
 
-	int movBH = analogRead(PIN_BACK_H);
 	int movBV = analogRead(PIN_BACK_V);
 
-//	int movLH = analogRead(PIN_LEFT_H);
-//	int movLV = analogRead(PIN_LEFT_V);
+	int movLV = analogRead(PIN_LEFT_V);
 
 	// Calculate output movement values from input analog readings
-	movX = 512 + (movFH - movBH)/2;
-	movY = 1024 - (movFV + movRV + movBV)/3;
-	movZ = movRH;
-	movA = 512 + (movFV - movBV)/2; //pitch
-	movB = 1024 - (movFH + movRH + movBH)/3; //yaw
-	movC = movRV; //roll
+	movY = (movFV + movRV + movBV + movLV)/4;
+	movA = 512 + (movFV - movBV)/2; // pitch
+	movB = 1024 - (movFH + movRH)/2; // yaw
+	movC = 512 + (movRV - movLV)/2; // roll
+
+	/*
+	 * X,Y calculation (only applicable to boards with 8 analog inputs)
+	 */
+
+	#if defined(ARDUINO_AVR_MICRO)
+
+	int movBH = analogRead(PIN_BACK_H);
+	int movLH = analogRead(PIN_LEFT_H);
+
+	movX = 512 + (movBH - movFH)/2;
+	movZ = 512 + (movRH - movLH)/2;
+	movB = 1024 - (movFH + movRH + movBH + movLH)/4; // yaw
+
+	#endif
 
 	// Apply small centre-point deadband to outputs
 	if (movX < 512 + DEADBAND && movX > 512 - DEADBAND)
