@@ -18,17 +18,17 @@ void SixAxis::updateAxes() {
 	int movFH = analogRead(PIN_FRONT_H);
 	int movFV = analogRead(PIN_FRONT_V);
 
-	int movRH = analogRead(PIN_RIGHT_H);
-	int movRV = analogRead(PIN_RIGHT_V);
+	int movLH = analogRead(PIN_LEFT_H);
+	int movLV = analogRead(PIN_LEFT_V);
 
 	int movBV = analogRead(PIN_BACK_V);
 
-	int movLV = analogRead(PIN_LEFT_V);
+	int movRV = analogRead(PIN_RIGHT_V);
 
 	// Calculate output movement values from input analog readings
 	movY = (movFV + movRV + movBV + movLV)/4;
 	movA = 512 + (movFV - movBV)/2; // pitch
-	movB = 1024 - (movFH + movRH)/2; // yaw
+	movB = 1024 - (movFH + movLH)/2; // yaw
 	movC = 512 + (movRV - movLV)/2; // roll
 
 	/*
@@ -38,7 +38,7 @@ void SixAxis::updateAxes() {
 	#if defined(ARDUINO_AVR_MICRO)
 
 	int movBH = analogRead(PIN_BACK_H);
-	int movLH = analogRead(PIN_LEFT_H);
+	int movRH = analogRead(PIN_RIGHT_H);
 
 	movX = 512 + (movBH - movFH)/2;
 	movZ = 512 + (movRH - movLH)/2;
