@@ -20,21 +20,6 @@
 #define DEADBAND 25
 #define RANGE_MULTIPLIER 1.1
 
-#define OLD_SHIELD 1
-
-#if defined(OLD_SHIELD)
-
-#define PIN_FRONT_H A0
-#define PIN_FRONT_V A1
-#define PIN_RIGHT_H A2
-#define PIN_RIGHT_V A3
-#define PIN_BACK_H A4
-#define PIN_BACK_V A5
-#define PIN_LEFT_H A7
-#define PIN_LEFT_V A6
-
-#else
-
 #define PIN_FRONT_H A0
 #define PIN_FRONT_V A1
 #define PIN_LEFT_H A2
@@ -46,8 +31,6 @@
 
 #define PIN_BACK_H A6
 #define PIN_RIGHT_H A7
-
-#endif
 
 #endif
 
